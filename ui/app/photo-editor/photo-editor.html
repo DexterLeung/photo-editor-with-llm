@@ -1,0 +1,48 @@
+<div class="wrapper">
+  <div class="title-bar">
+    <div class="quick-actions">
+      <button id="open-file-button" disabled>Open</button>
+      <button id="save-file-button" disabled>Save</button>
+      <div class="file-name"></div>
+    </div>
+
+    <div class="conversation">
+      <div>
+        <llm-response-panel></llm-response-panel>
+        <button id="add-message">🗨️</button>
+      </div>
+      <div id="user-message" inert class="hidden">
+        <textarea id="user-message-input" type="text" placeholder="Ask your helper here"
+          maxlength="150" disabled ></textarea>
+        <button id="user-message-submit" disabled>➜</button>
+      </div>
+    </div>
+
+    <div class="settings">
+      <select id="lang-selector" disabled>
+        <option value="en">EN</option>
+        <option value="zh">中</option>
+      </select>
+    </div>
+  </div>
+  <main class="main-content">
+    <div class="img-wrapper">
+      <canvas id="image-canvas" class="hidden"></canvas>
+    </div>
+  </main>
+  <!-- Message List -->
+  <!-- <div class="message-list">
+    <div class="message-list-placeholder">
+      Type at the bottom of the screen to start a chat.
+    </div>
+  </div> -->
+
+  <!-- Input textarea and submit button -->
+  <!-- <div class="input-row">
+    <textarea class="message" placeholder="Type text to send message" autofocus></textarea> 
+    <button type="button" class="submit-message">Submit</button>
+  </div> -->
+</div>
+
+<input type="file" accept=".jpg,.bmp,.JPG,.png,.PNG" id="open-file-input">
+<a id="save-file-link"></a>

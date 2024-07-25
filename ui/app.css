@@ -1,0 +1,21 @@
+:root {
+  --accent: hsl(308 45% 55%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --accent: hsl(308, 45%, 45%);
+  }
+}
+
+@property --accent {
+  syntax: "<color>";
+  initial-value: hsl(308 45% 55%);
+}
+
+photo-editor {
+  width: 100%; height: 100%;
+  position: absolute; left: 0; top: 0;
+  accent-color: --accent;
+}

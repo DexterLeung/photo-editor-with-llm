@@ -1,0 +1,39 @@
+.wrapper {
+  width: 100%; height: 100%;
+  display: flex; gap: .5em; align-items: center;
+
+  > .llmIcon {
+    font-size: 1.5em;
+    flex-shrink: 0;
+    text-align: center;
+    width: 2em;
+  }
+
+  > .llmLoading {
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  > .hidden {
+    display: none;
+  }
+
+  > .llmMessage {
+    flex-grow: 1;
+    overflow: clip;
+    height: 100%;
+    display: flex;
+
+    > .message {
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+  }
+  
+  > .hidden {
+    display: none;
+  }
+}
