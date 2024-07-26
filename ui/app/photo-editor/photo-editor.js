@@ -420,6 +420,11 @@ export class PhotoEditor extends BaseComponent {
    * To scale fit the canvas.
    */
   resizeCanvas() {
+    // Skip if there is no canvas yet.
+    if (!this.#imageCanvas) {
+      return;
+    }
+
     // Get the wrapper and image size.
     const wrapper = this.#imageCanvas.parentElement;
     const wrapperWidth = wrapper.clientWidth;
