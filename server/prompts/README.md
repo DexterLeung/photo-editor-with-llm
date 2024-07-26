@@ -19,9 +19,9 @@ The value of each prompt includes the following fields:
 | messages | Array<IChatMessage> | The list of chat messages as the prompt. |
 | messages[].role | string | Either `"system"`, `"user"` or `"assistant"`. |
 | messages[].content | string | A templatable string of the chat message. The template variables are within a pair of curly brackets. Double brackets escapes templating as a single curly bracket. Blank strings are not allowed and skipped. |
-| stop | Array<string> | The list of stop words for LLM to stop responding. |
-| temperature | float | The temperature of the LLM. |
-| model | string | The Ollama model name. |
+| stop | Array<string> | The list of stop words for LLM to stop responding. See Ollama specs for further info. |
+| temperature | float | The temperature of the LLM. See Ollama specs for further info. Example: 0.0 |
+| model | string | The Ollama model name. Example: `"llama3.1"`. |
 
 ## Example
 ```json
@@ -54,3 +54,7 @@ The value of each prompt includes the following fields:
   }
 }
 ```
+
+## List of Prompts
+
+TBD
