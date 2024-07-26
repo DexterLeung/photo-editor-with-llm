@@ -26,10 +26,13 @@
     overflow: clip;
     height: 100%;
     display: flex;
+    user-select: none;
+    cursor: default;
 
     > .message {
       margin-top: auto;
       margin-bottom: auto;
+      transition: margin ease-out .1s;
     }
   }
   

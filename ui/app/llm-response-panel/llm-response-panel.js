@@ -1,4 +1,5 @@
 import { BaseComponent } from "../../component.js";
+import { Utils } from "../../scripts/utils.js";
 
 
 /**
@@ -23,7 +24,7 @@ export class LLMResponsePanel extends BaseComponent {
   messageContainer;
 
   /** @type {HTMLDivElement} The message container. */
-  messageEle;
+  #messageEle;
 
   /** @type {boolean} Whether LLM is loading. */
   #llmLoading = false;
@@ -44,12 +45,14 @@ export class LLMResponsePanel extends BaseComponent {
       ["/app/llm-response-panel/llm-response-panel.css"],
       ["/app/llm-response-panel/llm-response-panel.html"]
     );
+
+    window.addEventListener("resize", this.#onWindowResize.bind(this), {passive: true, capture: false});
   }
 
   finishLoad() {
     super.finishLoad();
     this.messageContainer = this._shadowRoot.querySelector(".llmMessage");
-    this.messageEle = this._shadowRoot.querySelector(".llmMessage > .message");
+    this.#messageEle = this._shadowRoot.querySelector(".llmMessage > .message");
     this.#updateLoadingStatus();
   }
 
@@ -73,9 +76,25 @@ export class LLMResponsePanel extends BaseComponent {
       this.llmLoading = false;
 
       // Remove previous message.
-      this.messageEle.innerHTML = "";
+      this.#messageEle.innerHTML = "";
     } else if (message.response) {
-      this.messageEle.innerHTML += message.response;
+      // Update the LLM message.
+      this.#messageEle.innerHTML += message.response;
+
+      // Update the message position.
+      this.#updateMessagePosition();
+    }
+  }
+
+  #updateMessagePosition() {
+    // Update scroll.
+    const height = this.#messageEle.clientHeight;
+    const wrapper = this.#messageEle.parentElement;
+    const wrapperHeight = wrapper.clientHeight;
+    if (wrapperHeight < height) {
+      this.#messageEle.style.setProperty("margin-top", `-${height - wrapperHeight}px`);
+    } else {
+      this.#messageEle.style.setProperty("margin-top", `${(wrapperHeight - height) / 2}px`);
     }
   }
 
@@ -101,5 +120,13 @@ export class LLMResponsePanel extends BaseComponent {
         this._shadowRoot.querySelector(".llmMessage").classList.remove("hidden");
       }
     }
+  }
+
+  /**
+   * Triggered when the window is resized.
+   */
+  async #onWindowResize() {
+    await Utils.waitNextFrame();
+    this.#updateMessagePosition();
   }
 }
