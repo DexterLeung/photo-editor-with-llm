@@ -218,10 +218,22 @@ export class PhotoEditor extends BaseComponent {
     this._shadowRoot.querySelector("#open-file-button").setAttribute("disabled", "");
     this._shadowRoot.querySelector("#save-file-button").setAttribute("disabled", "");
 
-    // Load the file to the image bitmap.
+    // Prepare image loading.
     this.#imageLoading = true;
     this.#imageCanvas.classList.add("hidden");
+
+    // Tell the LLM that the image is loaded.
+    this.#llmResponsePanel.setAsLoading();
+    this.#llmClient.sendMessage(
+      {action: "ImageOpened", lang: this.#lang, fileName: this.file.name});
+
+    // Clear and load new image bitmap.
+    if (this.#imageBitmap) {
+      this.#imageBitmap.close();
+    }
     this.#imageBitmap = await createImageBitmap(this.file);
+
+    // Prepare canvas context.
     const ctx = this.#imageCanvas.getContext("2d");
     const rawCtx = this.#originalCanvas.getContext("2d");
 
@@ -261,11 +273,6 @@ export class PhotoEditor extends BaseComponent {
     this.resizeCanvas();
     this.#imageCanvas.classList.remove("hidden");
     this.#imageLoading = false;
-
-    // Tell the LLM that the image is loaded.
-    this.#llmResponsePanel.setAsLoading();
-    this.#llmClient.sendMessage(
-      {action: "ImageOpened", lang: this.#lang, fileName: this.file.name});
 
     // Re-enable open file button and save file button.
     this._shadowRoot.querySelector("#open-file-button").removeAttribute("disabled");
@@ -421,7 +428,7 @@ export class PhotoEditor extends BaseComponent {
    */
   resizeCanvas() {
     // Skip if there is no canvas yet.
-    if (!this.#imageCanvas) {
+    if (!this.#imageCanvas || !this.#imageBitmap) {
       return;
     }
 
